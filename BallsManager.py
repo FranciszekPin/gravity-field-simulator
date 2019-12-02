@@ -11,8 +11,8 @@ class BallsManager:
 
     def __init__(self, showBase):
         self.showBase = showBase
-        self.addBall(numpy.array([0., 0., 0.]), numpy.array([0., 0., 0.]))
-        self.addBall(numpy.array([0., 0., 5.]), numpy.array([.04, 0., 0.]))
+        self.addBall(numpy.array([-3., 0., 0.]), numpy.array([0., 0., -0.09]))
+        self.addBall(numpy.array([3., 0., 0.]), numpy.array([.0, 0., 0.09]))
         self.showBase.taskMgr.add(self.updateBallsTask, "updateBallsTask")
         self.lastDeltaTime = 0
 
@@ -31,7 +31,7 @@ class BallsManager:
     def updateBallsTask(self, task):
         """ Takes care of changing phsyics values of all objects """
 
-        deltaTime = (task.time-self.lastDeltaTime)*5
+        deltaTime = (task.time-self.lastDeltaTime)*200
 
         PhysicsManager().calculateForces(self.balls, deltaTime)
 
