@@ -11,8 +11,7 @@ class BallsManager:
 
     def __init__(self, showBase):
         self.showBase = showBase
-        self.addBall(numpy.array([-3., 0., 0.]), numpy.array([0., 0., -0.09]))
-        self.addBall(numpy.array([3., 0., 0.]), numpy.array([.0, 0., 0.09]))
+        self.addBigBall2D(numpy.array([0]), 20, 5)
         self.showBase.taskMgr.add(self.updateBallsTask, "updateBallsTask")
         self.lastDeltaTime = 0
 
@@ -21,7 +20,15 @@ class BallsManager:
         self.ballModel.reparentTo(self.showBase.render)
         positionInVector3 = LVector3(position[0], position[1], position[2])
         self.ballModel.setPos(positionInVector3)
-        self.balls.append(Ball(position, self.ballModel, False, velocity))
+        self.balls.append(Ball(position, self.ballModel, True, velocity))
+
+    def addBigBall2D(self, position, radius, distanceBetweenBalls):
+        """ Colors the area with small balls """
+        position = numpy.array([0, 0, 0])
+        for x in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
+            for y in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
+                if (x*x + y*y) <= radius*radius:
+                    self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.0, 0.0, 0.0]))
 
     def updateBallsPositions(self, deltaTime):
         """ Moves all balls by their velocities """
@@ -41,4 +48,3 @@ class BallsManager:
         self.lastDeltaTime = task.time
 
         return task.cont
-
