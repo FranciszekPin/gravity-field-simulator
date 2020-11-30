@@ -3,6 +3,7 @@ from panda3d.core import LPoint3, LVector3
 from physics.Ball import Ball
 
 class SkyManager:
+    """ Controls background sphere """
     def __init__(self, ShowBase, camera):
         self.sky = loader.loadModel("models/solar_sky_sphere")
         self.sky_tex = loader.loadTexture("models/stars_1k_tex.jpg")
