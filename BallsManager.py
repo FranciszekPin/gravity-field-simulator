@@ -6,30 +6,28 @@ from physics.PhysicsManager import PhysicsManager
 
 class BallsManager:
 
-    # every ball on the scene
     balls = []
-
     speed = 100000
 
     def __init__(self, showBase):
         self.showBase = showBase
 
-        self.addBall(numpy.array([0, 0., 0.]), numpy.array([0, 0.0, 0.0]), False, 333000, "sun")
-        self.addBall(numpy.array([0., 0., 100]), numpy.array([0.0004713, 0, 0]), False, 1, "earth")
-        self.addBall(numpy.array([0., 0., 50]), numpy.array([0.0006665, 0, 0]), False, 1, "mars")
-        self.addBall(numpy.array([0., 0., 25]), numpy.array([0.0009426, 0, 0]), False, 1, "mercury")
+        self.addBallsToRender()
 
-        # these will orbit
-        #self.addBall(numpy.array([0., 0., 0.]), numpy.array([0, 0.0, 0.0]), static = True)
-        #self.addBall(numpy.array([-1.414213, -1.414213, 0]), numpy.array([0.0, 0, -0.18262]), static = False)
         self.showBase.taskMgr.add(self.updateBallsTask, "updateBallsTask")
         self.lastDeltaTime = 0
 
+    def addBallsToRender(self):
+        """ Adds balls to simulator """
+        self.addBall(numpy.array([0., 0., 0.]), numpy.array([0, 0.0, 0.0]), True, 333000, "sun")
+        self.addBall(numpy.array([0., 0., 100]), numpy.array([0.0004713, 0, 0]), False, 1, "earth")
+        self.addBall(numpy.array([0., 0., 50]), numpy.array([0.0006665, 0, 0]), False, 1, "mars")
+        self.addBall(numpy.array([0., 0., 25]), numpy.array([0.0009426, 0, 0]), False, 1, "mercury")
+        #self.addBigBall2D(0, 40, 10);
+
     def addBall(self, position, velocity, static, mass, texName):
-        # Using trial and error, I have successfully determined the radius of
-        # the sample model of ball and it happens to be 0.8 (what the hell)...
+        """ Adds chosen ball to simulator """
         ballModel = self.showBase.loader.loadModel("models/ball")
-        tex = 0
         ballModel.setScale(5)
 
         if texName == "sun":
@@ -45,44 +43,31 @@ class BallsManager:
             tex = loader.loadTexture("models/moon_1k_tex.jpg")
             ballModel.setScale(2)
         ballModel.setTexture(tex)
-        # ...and therefore needs to be scaled so it's equal to 0.5
-        #ballModel.setScale(1.25, 1.25, 1.25)
 
         ballModel.reparentTo(self.showBase.render)
         ballModel.setPos(LVector3(position[0], position[1], position[2]))
         self.balls.append(Ball(position, ballModel, static, velocity, mass))
-
-
-    # def addBall(self, position, velocity):
-    #     self.ballModel = self.showBase.loader.loadModel("models/ball")
-    #     self.ballModel.reparentTo(self.showBase.render)
-    #     positionInVector3 = LVector3(position[0], position[1], position[2])
-    #     self.ballModel.setPos(positionInVector3)
-    #     self.balls.append(Ball(position, self.ballModel, True, velocity))
 
     def addBigBall2D(self, position, radius, distanceBetweenBalls):
         """ Colors the area with small balls """
         position = numpy.array([0, 0, 0])
         for x in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
             for y in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
-                if (x*x + y*y) <= radius*radius:
-                    self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.0, 0.0, 0.0]))
-
-    def updateBallsPositions(self, deltaTime):
-        """ Moves all balls by their velocities """
-        for ball in self.balls:
-            ball.move(LVector3(ball.velocity[0], ball.velocity[1], ball.velocity[2]) * deltaTime)
+                self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.00001, 0.0, 0.0]), False, 1000, "earth")
+                    #self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.0, 0.0, 0.0]))
 
     def updateBallsTask(self, task):
         """ Takes care of changing phsyics values of all objects """
-
         deltaTime = (task.time - self.lastDeltaTime) * self.speed
 
         PhysicsManager().update(self.balls, deltaTime)
-
-        # it should be called after all velocity calculations
         self.updateBallsPositions(deltaTime)
 
         self.lastDeltaTime = task.time
 
         return task.cont
+
+    def updateBallsPositions(self, deltaTime):
+        """ Moves all balls by their velocities """
+        for ball in self.balls:
+            ball.move(LVector3(ball.velocity[0], ball.velocity[1], ball.velocity[2]) * deltaTime)
