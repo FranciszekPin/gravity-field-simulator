@@ -54,7 +54,6 @@ class BallsManager:
         for x in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
             for y in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
                 self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.00001, 0.0, 0.0]), False, 1000, "earth")
-                    #self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.0, 0.0, 0.0]))
 
     def updateBallsTask(self, task):
         """ Takes care of changing phsyics values of all objects """
