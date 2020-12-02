@@ -15,6 +15,8 @@ class PhysicsManager:
         sR = linalg.norm(v_r)
 
         # F = GMm/r^2
+        if sR == 0:
+            return
         F = (PhysicsManager.G * balls[0].mass * balls[1].mass) / (sR ** 2)
 
         # unit vector of R

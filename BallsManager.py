@@ -6,7 +6,7 @@ from physics.PhysicsManager import PhysicsManager
 
 class BallsManager:
     balls = []
-    speed = 100000
+    speed = 10000
 
     def __init__(self, showBase):
         self.showBase = showBase
@@ -18,11 +18,12 @@ class BallsManager:
 
     def add_balls_to_render(self):
         """ Adds balls to simulator """
-        self.add_ball(numpy.array([0., 0., 0.]), numpy.array([0, 0.0, 0.0]), True, 333000, "sun")
+        self.add_ball(numpy.array([0., 0., 0.]), numpy.array([0, 0.0, 0.0]), False, 333000, "sun")
+        self.add_ball(numpy.array([200., 0., 200.]), numpy.array([0, 0.0, 0.0]), False, 3330000, "sun")
         self.add_ball(numpy.array([0., 0., 100]), numpy.array([0.0004713, 0, 0]), False, 1, "earth")
         self.add_ball(numpy.array([0., 0., 50]), numpy.array([0.0006665, 0, 0]), False, 1, "mars")
         self.add_ball(numpy.array([0., 0., 25]), numpy.array([0.0009426, 0, 0]), False, 1, "mercury")
-        # self.addBigBall2D(0, 40, 10);
+        self.add_planet_square(numpy.array([0., 0., 100]), 40, 10)
 
     def add_ball(self, position, velocity, static, mass, texName):
         """ Adds chosen ball to simulator """
@@ -52,10 +53,9 @@ class BallsManager:
 
     def add_planet_square(self, position, radius, distance_between_balls):
         """ Colors the area with small balls """
-        position = numpy.array([0, 0, 0])
         for x in numpy.arange(-radius, radius + 1e-9, distance_between_balls):
             for y in numpy.arange(-radius, radius + 1e-9, distance_between_balls):
-                self.add_ball(numpy.array([x, 0.0, y]), numpy.array([0.00001, 0.0, 0.0]), False, 1000, "earth")
+                self.add_ball(numpy.array([x+position[0], 0.0, y+position[2]]), numpy.array([0.00001, 0.0, 0.0]), False, 1000, "earth")
 
     def update_balls_task(self, task):
         """ Takes care of changing phsyics values of all objects """
