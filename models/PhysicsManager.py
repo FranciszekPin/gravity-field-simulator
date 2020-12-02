@@ -29,8 +29,8 @@ class PhysicsManager:
         vR = vR/sR
 
         # v = Ft/m <=> F = ma
-        balls[0].updateVelocity(F * deltaTime / balls[0].mass *(-vR))
-        balls[1].updateVelocity(F * deltaTime / balls[1].mass * vR)
+        balls[0].update_velocity(F * deltaTime / balls[0].mass * (-vR))
+        balls[1].update_velocity(F * deltaTime / balls[1].mass * vR)
 
     def update(self, balls, deltaTime):
         """ Calculates forces & velocities after collision of every pair of balls possible """
