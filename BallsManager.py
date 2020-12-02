@@ -1,72 +1,74 @@
 import numpy
-from direct.showbase.ShowBase import ShowBase
 from panda3d.core import LPoint3, LVector3
 from physics.Ball import Ball
 from physics.PhysicsManager import PhysicsManager
 
-class BallsManager:
 
+class BallsManager:
     balls = []
     speed = 100000
 
     def __init__(self, showBase):
         self.showBase = showBase
 
-        self.addBallsToRender()
+        self.add_balls_to_render()
 
-        self.showBase.taskMgr.add(self.updateBallsTask, "updateBallsTask")
+        self.showBase.taskMgr.add(self.update_balls_task, "updateBallsTask")
         self.lastDeltaTime = 0
 
-    def addBallsToRender(self):
+    def add_balls_to_render(self):
         """ Adds balls to simulator """
-        self.addBall(numpy.array([0., 0., 0.]), numpy.array([0, 0.0, 0.0]), True, 333000, "sun")
-        self.addBall(numpy.array([0., 0., 100]), numpy.array([0.0004713, 0, 0]), False, 1, "earth")
-        self.addBall(numpy.array([0., 0., 50]), numpy.array([0.0006665, 0, 0]), False, 1, "mars")
-        self.addBall(numpy.array([0., 0., 25]), numpy.array([0.0009426, 0, 0]), False, 1, "mercury")
-        #self.addBigBall2D(0, 40, 10);
+        self.add_ball(numpy.array([0., 0., 0.]), numpy.array([0, 0.0, 0.0]), True, 333000, "sun")
+        self.add_ball(numpy.array([0., 0., 100]), numpy.array([0.0004713, 0, 0]), False, 1, "earth")
+        self.add_ball(numpy.array([0., 0., 50]), numpy.array([0.0006665, 0, 0]), False, 1, "mars")
+        self.add_ball(numpy.array([0., 0., 25]), numpy.array([0.0009426, 0, 0]), False, 1, "mercury")
+        # self.addBigBall2D(0, 40, 10);
 
-    def addBall(self, position, velocity, static, mass, texName):
+    def add_ball(self, position, velocity, static, mass, texName):
         """ Adds chosen ball to simulator """
-        ballModel = self.showBase.loader.loadModel("models/ball")
-        ballModel.setScale(5)
+        ball_model = self.showBase.loader.loadModel("models/ball")
+        ball_model.setScale(5)
 
         if texName == "sun":
-            tex = loader.loadTexture("models/sun_1k_tex.jpg")
-            ballModel.setScale(15)
+            tex = self.showBase.loader.loadTexture("models/sun_1k_tex.jpg")
+            ball_model.setScale(15)
+
         elif texName == "earth":
-            tex = loader.loadTexture("models/earth_1k_tex.jpg")
+            tex = self.showBase.loader.loadTexture("models/earth_1k_tex.jpg")
         elif texName == "mercury":
-            tex = loader.loadTexture("models/mercury_1k_tex.jpg")
+            tex = self.showBase.loader.loadTexture("models/mercury_1k_tex.jpg")
         elif texName == "mars":
-            tex = loader.loadTexture("models/mars_1k_tex.jpg")
+            tex = self.showBase.loader.loadTexture("models/mars_1k_tex.jpg")
         elif texName == "moon":
-            tex = loader.loadTexture("models/moon_1k_tex.jpg")
-            ballModel.setScale(2)
-        ballModel.setTexture(tex)
+            tex = self.showBase.loader.loadTexture("models/moon_1k_tex.jpg")
+            ball_model.setScale(2)
+        else:
+            tex = 0
+        ball_model.setTexture(tex)
 
-        ballModel.reparentTo(self.showBase.render)
-        ballModel.setPos(LVector3(position[0], position[1], position[2]))
-        self.balls.append(Ball(position, ballModel, static, velocity, mass))
+        ball_model.reparentTo(self.showBase.render)
+        ball_model.setPos(LVector3(position[0], position[1], position[2]))
+        self.balls.append(Ball(position, ball_model, static, velocity, mass))
 
-    def addBigBall2D(self, position, radius, distanceBetweenBalls):
+    def add_planet_square(self, position, radius, distance_between_balls):
         """ Colors the area with small balls """
         position = numpy.array([0, 0, 0])
-        for x in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
-            for y in numpy.arange(-radius, radius+1e-9, distanceBetweenBalls):
-                self.addBall(numpy.array([x, 0.0, y]), numpy.array([0.00001, 0.0, 0.0]), False, 1000, "earth")
+        for x in numpy.arange(-radius, radius + 1e-9, distance_between_balls):
+            for y in numpy.arange(-radius, radius + 1e-9, distance_between_balls):
+                self.add_ball(numpy.array([x, 0.0, y]), numpy.array([0.00001, 0.0, 0.0]), False, 1000, "earth")
 
-    def updateBallsTask(self, task):
+    def update_balls_task(self, task):
         """ Takes care of changing phsyics values of all objects """
-        deltaTime = (task.time - self.lastDeltaTime) * self.speed
+        delta_time = (task.time - self.lastDeltaTime) * self.speed
 
-        PhysicsManager().update(self.balls, deltaTime)
-        self.updateBallsPositions(deltaTime)
+        PhysicsManager().update(self.balls, delta_time)
+        self.update_balls_positions(delta_time)
 
         self.lastDeltaTime = task.time
 
         return task.cont
 
-    def updateBallsPositions(self, deltaTime):
+    def update_balls_positions(self, delta_time):
         """ Moves all balls by their velocities """
         for ball in self.balls:
-            ball.move(LVector3(ball.velocity[0], ball.velocity[1], ball.velocity[2]) * deltaTime)
+            ball.move(LVector3(ball.velocity[0], ball.velocity[1], ball.velocity[2]) * delta_time)
