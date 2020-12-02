@@ -4,10 +4,11 @@ Easy to use environment allowing to place physic bodies in space and watch how t
 ## Features
 ### Adding bodies
 You can use our pre-defined planet objects like earth or sun.
+![Alt Text](models/two_moons.gif)
 
 ### Adding bigger number of objects
 Things turn exciting when it is possible to observe multiple objects reacting to each other.
-
+![Alt Text](models/planet_square.gif)
 ## How to use it
 ### Dependencies
 This project requires Python 3 with Panda3d, scipy and numpy
