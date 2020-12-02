@@ -14,8 +14,5 @@ class GameManager:
     def setCameraPosition(self, x, y, z):
         self.showBase.cam.setPos(0, -450, 0)
 
-
-
-# execute
 gameManager = GameManager()
 gameManager.showBase.run()
