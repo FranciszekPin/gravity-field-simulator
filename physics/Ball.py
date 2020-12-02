@@ -1,5 +1,5 @@
 import numpy
-from panda3d.core import LPoint3, LVector3
+from panda3d.core import LVector3
 
 
 class Ball:
