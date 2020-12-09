@@ -3,43 +3,42 @@ Easy to use environment allowing to place physic bodies in space and watch how t
 
 ## Features
 ### Adding bodies
-You can use our pre-defined planet objects like earth or sun.
+You can use our pre-defined objects like earth or sun.
 ![Alt Text](models/two_moons.gif)
 
 ### Adding bigger number of objects
-Things turn exciting when it is possible to observe multiple objects reacting to each other.
+Simulations become much more interesting after placing bigger number of objects. Our simulator provides you tools for placing many objects at the samte time.
 ![Alt Text](models/planet_square.gif)
 ## How to use it
 ### Dependencies
-This project requires Python 3 with Panda3d, scipy and numpy
+This project requires `Python 3` with `Panda3d`, `scipy` and `numpy`.
 
 ### Default simulation
-Clone this repo on your local machine and go into project folder
+Clone this repo on your local machine and go into project folder:
 
     git clone https://github.com/FranciszekPin/gravity-field-simulator
     cd gravity-field-simulator
 
-
-To see default simulation just run
+To see default simulation run:
 
     python3 GameManager.py
 
-You should see few planets orbiting sun
+You should see few planets orbiting the sun:
 ![Alt Text](models/solar_system.gif)
 
 ### Making own simulation
-In `BallsManager.py` there is function `add_balls_to_render(self)`. 
-Inside this function you can set planets for simulation.
-There are two functions that can be used. 
+In `BallsManager.py` there is a function `add_balls_to_render(self)`. 
+Inside this function you can define which planets will appear in simulation.
+There are two functions that can be used:
 #### Add single planet
-First adds one planet with given mass and velocity on given position:
+First function adds one planet with given mass and velocity on given position:
 
     add_ball(self, position, velocity, static, mass, planet_name)
 
 where
     
     position - starting position of planet in numpy.array([x, y, z])
-    position - starting velocity of planet in numpy.array([x, y, z])
+    velocity - starting velocity of planet in numpy.array([x, y, z])
     static - if True, planet won't move, usually should be set to False
     mass - single number standing for plaet mass
     planet_name - sets planet texture with according name, the possible values are: "earth", "mercury", "mars", "moon"
