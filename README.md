@@ -18,7 +18,7 @@ This project requires `Python 3` with `Panda3d`, `scipy` and `numpy`.
 ### Default simulation
 Clone this repo on your local machine and go into project folder:
 
-    git clone https://github.com/FranciszekPin/gravity-field-simulator
+    git clone https://github.com/FranciszekPin/gravity-field-simulator.git
     cd gravity-field-simulator
 
 To see default simulation run:
