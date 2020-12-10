@@ -4,10 +4,12 @@ Easy to use environment allowing to place physic bodies in space and watch how t
 ## Features
 ### Adding bodies
 You can use our pre-defined objects like earth or sun.
+
 ![Alt Text](models/two_moons.gif)
 
 ### Adding bigger number of objects
 Simulations become much more interesting after placing bigger number of objects. Our simulator provides you tools for placing many objects at the samte time.
+
 ![Alt Text](models/planet_square.gif)
 ## How to use it
 ### Dependencies
@@ -24,6 +26,7 @@ To see default simulation run:
     python3 GameManager.py
 
 You should see few planets orbiting the sun:
+
 ![Alt Text](models/solar_system.gif)
 
 ### Making own simulation
